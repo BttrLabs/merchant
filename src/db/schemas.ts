@@ -7,8 +7,8 @@ export const StripeStatusSchema = z.enum(['initiated', 'requires_payment_method'
 
 // Timestamps
 export const TimestampsSchema = z.object({
-  created_at: z.preprocess((val) => val instanceof Date ? val.toISOString() : val, z.string().datetime()),
-  updated_at: z.preprocess((val) => val instanceof Date ? val.toISOString() : val, z.string().datetime()),
+  created_at: z.preprocess((val) => val instanceof Date ? val.toISOString() : val, z.iso.datetime()),
+  updated_at: z.preprocess((val) => val instanceof Date ? val.toISOString() : val, z.iso.datetime()),
 });
 
 
@@ -192,12 +192,12 @@ export const UpdateVariantSchema = VariantSchema.omit({ id: true, product_id: tr
 
 // Pagination
 export const PaginationQuerySchema = z.object({
-  page: z.string().regex(/^\d+$/).transform(Number).pipe(z.number().int().min(1)).default('1').openapi({
+  page: z.string().regex(/^\d+$/).transform(Number).pipe(z.number().int().min(1)).default(1).openapi({
     param: { name: 'page', in: 'query' },
     example: '1',
     description: 'Page number (1-indexed)',
   }),
-  limit: z.string().regex(/^\d+$/).transform(Number).pipe(z.number().int().min(1).max(100)).default('20').openapi({
+  limit: z.string().regex(/^\d+$/).transform(Number).pipe(z.number().int().min(1).max(100)).default(20).openapi({
     param: { name: 'limit', in: 'query' },
     example: '20',
     description: 'Items per page (max 100)',
