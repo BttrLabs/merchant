@@ -14,7 +14,13 @@ app.use(requestId())
 app.use(eventMiddleware())
 app.onError(errorHandler)
 
-app.get('/', Scalar({ url: '/open-api/generate' }))
+app.get('/', Scalar({
+  url: '/open-api/generate',
+  metaData: {
+    title: 'BTTR Merchant API',
+    description: 'Fast, secure, and scalable merchant infrastructure for products, orders, payments, and checkout.'
+  }
+}))
 
 app.doc('/open-api/generate', {
   openapi: '3.0.0',
